@@ -20,25 +20,47 @@ class Game
 
   def play
     while @player1.alive? && @player2.alive?
-      new_turn
-      question = Questions.new
-      puts question.ask_question
-      print ">"
-      answer = gets.chomp.to_i
-      if answer == question.answer
-        puts "Good Job!"
-        current_scores
-      else 
-        puts "Bad Job!"
-        @player1.lose_life
-        @player1.lose_life
-        @player1.lose_life
-        current_scores
+      if @count % 2 === 0
+        puts "Player 1's turn!"
+        question = Questions.new
+        puts question.ask_question
+        print "> "
+        answer = gets.chomp.to_i
+        if answer == question.answer
+          puts "Good Job!"
+          current_scores
+          new_turn
+        else 
+          puts "Bad Job!"
+          @player1.lose_life
+          current_scores
+          new_turn
+        end
+      elsif @count % 2 === 1
+        puts "Player 2's turn!"
+        question = Questions.new
+        puts question.ask_question
+        print "> "
+        answer = gets.chomp.to_i
+        if answer == question.answer
+          puts "Good Job!"
+          current_scores
+          new_turn
+        else 
+          puts "Bad Job!"
+          @player2.lose_life
+          current_scores
+          new_turn
+        end
       end
     end 
 
     if !@player1.alive?
       puts "Game over, player one loses!"
+      current_scores
+    elsif !@player2.alive?
+      puts "Game over, player two loses!"
+      current_scores
     end
   end 
 end
